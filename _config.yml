@@ -1,0 +1,24 @@
+title: Task list app experiment
+description: >- # this means to ignore newlines until "baseurl:"
+  This is an xp. You should pick a branch of your taste and run.
+  Each one shows a different way to make the task list app.
+baseurl: "/task-list-app"
+url: "http://johnylab.ml"
+twitter_username: johnylab
+github_username:  johnylab
+
+# Build settings
+markdown: kramdown
+theme: minima
+
+# Exclude from processing.
+# The following items will not be processed, by default. Create a custom list
+# to override the default setting.
+# exclude:
+#   - Gemfile
+#   - Gemfile.lock
+#   - node_modules
+#   - vendor/bundle/
+#   - vendor/cache/
+#   - vendor/gems/
+#   - vendor/ruby/

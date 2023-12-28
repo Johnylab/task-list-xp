@@ -1,40 +1,83 @@
-import api from "./api.js";
-import renderTask from "./components/task.js";
-import { form, list, newTaskInput } from "./constants/elements.js";
-import { DONE, PENDENT } from "./constants/task-states.js";
+import { v4 as uuid } from "uuid";
 
-api.fetch((resp) => {
-  list.innerHTML = resp.data.map(renderTask).join("");
+const $container = document.querySelector("#app");
+const $list = $container.querySelector("#app .app-list");
+const $form = $container.querySelector("#app .app-form");
+const $newTaskInput = $form.querySelector("#new-task");
+
+const taskStates = { PENDENT: "PENDENT", DONE: "DONE" };
+
+let data = [
+  { id: uuid(), text: "Comprar leite", state: taskStates.PENDENT },
+  { id: uuid(), text: "Banho no cachorro", state: taskStates.PENDENT },
+  { id: uuid(), text: "Lavar a louça", state: taskStates.DONE },
+];
+
+const renderTask = ({ id, text, state }) => /* html */ `
+<div class="task-item" data-id="${id}">
+  <label>
+    <input
+      class="task__checkbox"
+      type="checkbox"
+      ${state === taskStates.DONE ? "checked" : ""}
+      value="${id}"
+    />
+    <span class="task__checkbox-placeholder"></span>
+    <span class="task__text">${text}</span>
+  </label>
+  <button
+    class="task__delete-button"
+    data-delete-id="${id}"
+  >
+    <img src="./img/delete-button.svg" width="16" height="16">
+  </button>
+</div>
+`;
+
+const createTask = (text) => ({
+  id: uuid(),
+  text,
+  state: taskStates.PENDENT,
 });
 
-list.addEventListener("change", function (e) {
+const updateTaskState = (id, newState) => {
+  const task = data.find(({ id: taskId }) => taskId === id);
+  if (task) {
+    task.state = newState;
+  }
+};
+
+const deleteTask = (id) => {
+  data = data.filter(({ id: taskId }) => taskId !== id);
+};
+
+const renderTasks = () => {
+  $list.innerHTML = data.map(renderTask).join("");
+};
+
+renderTasks();
+
+$list.addEventListener("change", function (e) {
   const { value, checked } = e.target;
-  if (!value) {
-    return;
+  if (value) {
+    updateTaskState(value, checked ? taskStates.DONE : taskStates.PENDENT);
+    renderTasks();
   }
-
-  const state = checked ? DONE : PENDENT;
-  const task = api.data.find(({ id }) => id === value);
-  api.update({ ...task, state });
 });
 
-list.addEventListener("click", function (e) {
+$list.addEventListener("click", function (e) {
   const id = e.target.getAttribute("data-delete-id");
-  if (!id) {
-    return;
+  if (id) {
+    deleteTask(id);
+    const element = $list.querySelector(`[data-id="${id}"]`);
+    element?.remove();
   }
-  api.delete(id, () => {
-    const element = list.querySelector(`#${id}`);
-    if (element && element.parentElement) {
-      element.parentElement.removeChild(element);
-    }
-  });
 });
 
-form.addEventListener("submit", function (e) {
+$form.addEventListener("submit", function (e) {
   e.preventDefault();
-  api.add(newTaskInput.value, (resp) => {
-    list.innerHTML += renderTask(resp.task);
-    newTaskInput.value = "";
-  });
+  const newTask = createTask($newTaskInput.value);
+  data.push(newTask);
+  renderTasks();
+  $newTaskInput.value = "";
 });

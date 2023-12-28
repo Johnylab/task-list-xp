@@ -1,25 +1,27 @@
 <!DOCTYPE html>
 <html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Vanilla JS Task List</title>
+    <link rel="stylesheet" href="./css/index.css" />
+  </head>
 
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <title>Vanilla JS Task List</title>
-  <link rel="stylesheet" href="css/index.css">
-</head>
-
-<body>
-  <div id="app">
-    <div class="wrapper">
-      <header class="app-header">To do</header>
-      <div class="app-list"></div>
-      <form class="app-form">
-        <input id="task" class="task task__input" placeholder="Add new task..." />
-      </form>
+  <body>
+    <div id="app">
+      <div class="wrapper">
+        <header class="app-header">To Do List</header>
+        <div class="app-list"></div>
+        <form class="app-form">
+          <input
+            id="new-task"
+            class="task__input"
+            placeholder="Add new task..."
+          />
+        </form>
+      </div>
     </div>
-  </div>
-  <script src="js/index.js" type="module"></script>
-</body>
-
+    <script src="./js/index.js" type="module"></script>
+  </body>
 </html>

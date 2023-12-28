@@ -29,18 +29,20 @@ body {
   font-size: 1.4em;
 }
 
-.task {
+.task-item,
+.task__input {
   margin-top: var(--spacing);
   border-radius: 4px;
   box-shadow: 0 1px 5px 0 rgba(0, 0, 0, .2);
 }
 
-.task,
-.task label {
+.task-item,
+.task-item label {
   display: flex;
+  align-items: center;
 }
 
-.task label {
+.task-item label {
   padding: var(--spacing);
   flex: 1 1 auto;
   cursor: pointer;
@@ -62,13 +64,16 @@ body {
 
 .task__checkbox-placeholder {
   display: inline-block;
-  margin-top: 0.25em;
-  margin-right: 0.5em;
+  margin-right: 1em;
   flex: 0 0 1em;
   width: 1em;
   height: 1em;
   border: 1px solid var(--grey-color);
   transition: 0.1s ease-in-out;
+}
+
+.task__checkbox:focus-visible~.task__checkbox-placeholder {
+  outline: 3px solid var(--active-color);
 }
 
 .task__checkbox:checked~.task__text {
@@ -78,23 +83,41 @@ body {
 
 .task__checkbox:checked~.task__checkbox-placeholder {
   border: 0.5em solid var(--grey-color-light);
+  outline-color: var(--active-color);
 }
 
-.task__checkbox:hover~.task__checkbox-placeholder {
-  border-color: var(--active-color);
+.task-item:hover,
+.task-item:focus-within {
+  outline: 1px solid var(--active-color);
+
+  .task__checkbox-placeholder {
+    border-color: var(--active-color);
+  }
 }
 
-.task__checkbox:hover~.task__text {
+.task-item:hover .task__text {
   color: var(--active-color);
 }
 
 .task__delete-button {
-  margin-left: 0.5em;
-  padding-left: 0.5em;
-  padding-right: 0.5em;
+  display: inline-block;
+  margin: 0 1em;
+  padding: 0.5em;
+  border-radius: 1em;
   border: 0 none;
   background-color: transparent;
   cursor: pointer;
+  transition: 0.1s ease-in-out;
+}
+
+.task__delete-button img {
+  display: block;
+  width: 1em;
+  height: 1em;
+}
+
+.task__delete-button:focus-visible {
+  outline: 3px solid var(--active-color);
 }
 
 .task__delete-button>* {
@@ -104,12 +127,13 @@ body {
 .task__input {
   padding: var(--spacing);
   width: 100%;
-  border: 0 none;
+  border: 1px solid var(--grey-color);
   background-color: var(--bg-color);
 }
 
 .task__input:focus {
   outline: none;
   background-color: var(--input-bg-color);
+  border-color: var(--active-color);
   box-shadow: 0 0 3px rgba(var(--active-color), 0.5);
 }

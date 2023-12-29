@@ -2,7 +2,7 @@
 
 :root {
   --base-font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
-  --spacing: 15px;
+  --spacing: 8px;
   --text-color: #444;
   --bg-color: #efefef;
   --input-bg-color: #fff;
@@ -14,6 +14,8 @@
 
 body {
   font-family: var(--base-font-family);
+  font-size: 14px;
+  line-height: 1.2;
   color: var(--text-color);
   background-color: var(--bg-color);
 }
@@ -29,9 +31,18 @@ body {
   font-size: 1.4em;
 }
 
+.task-item {
+  --outline-width: 0;
+  margin-bottom: var(--spacing);
+}
+
+.task-item:hover,
+.task-item:focus-within {
+  outline: 1px solid var(--active-color);
+}
+
 .task-item,
 .task__input {
-  margin-top: var(--spacing);
   border-radius: 4px;
   box-shadow: 0 1px 5px 0 rgba(0, 0, 0, .2);
 }
@@ -48,8 +59,11 @@ body {
   cursor: pointer;
 }
 
-.task__text {
-  flex: 1 1 auto;
+.task-item svg {
+  width: 1em;
+  height: 1em;
+  font-size: 20px;
+  fill: currentColor;
 }
 
 .task__checkbox {
@@ -68,56 +82,60 @@ body {
   flex: 0 0 1em;
   width: 1em;
   height: 1em;
-  border: 1px solid var(--grey-color);
+  border-radius: 2px;
+  border: 1px solid var(--grey-color-light);
+  outline: var(--outline-width) solid var(--grey-color-light);
+  position: relative;
   transition: 0.1s ease-in-out;
 }
 
-.task__checkbox:focus-visible~.task__checkbox-placeholder {
-  outline: 3px solid var(--active-color);
-}
-
-.task__checkbox:checked~.task__text {
-  color: var(--grey-color);
-  text-decoration: line-through;
-}
-
-.task__checkbox:checked~.task__checkbox-placeholder {
-  border: 0.5em solid var(--grey-color-light);
-  outline-color: var(--active-color);
-}
-
-.task-item:hover,
-.task-item:focus-within {
-  outline: 1px solid var(--active-color);
-
-  .task__checkbox-placeholder {
-    border-color: var(--active-color);
-  }
-}
-
-.task-item:hover .task__text {
-  color: var(--active-color);
+.task__checkbox-placeholder svg {
+  position: absolute;
+  top: -4px;
+  left: 1px;
 }
 
 .task__delete-button {
   display: inline-block;
-  margin: 0 1em;
-  padding: 0.5em;
+  margin: 0 var(--spacing);
+  padding: 0;
   border-radius: 1em;
-  border: 0 none;
   background-color: transparent;
   cursor: pointer;
+  border: 0 none;
+  outline: var(--outline-width) solid var(--grey-color-light);
+  outline-offset: 3px;
   transition: 0.1s ease-in-out;
 }
 
-.task__delete-button img {
+.task-item.done label {
+  color: var(--grey-color);
+  text-decoration: line-through;
+}
+
+.task-item label:hover,
+.task-item label:focus-within,
+.task__delete-button:hover,
+.task__delete-button:focus {
+  --outline-width: 3px;
+  color: var(--active-color);
+}
+
+.task__delete-button img,
+.task__delete-button svg {
   display: block;
   width: 1em;
   height: 1em;
+  font-size: 16px;
 }
 
-.task__delete-button:focus-visible {
-  outline: 3px solid var(--active-color);
+.task__delete-button svg {
+  fill: var(--grey-color);
+}
+
+.task__delete-button:hover svg,
+.task__delete-button:focus svg {
+  fill: var(--text-color);
 }
 
 .task__delete-button>* {
@@ -125,9 +143,10 @@ body {
 }
 
 .task__input {
+  margin-top: var(--spacing);
   padding: var(--spacing);
   width: 100%;
-  border: 1px solid var(--grey-color);
+  border: 1px solid var(--grey-color-light);
   background-color: var(--bg-color);
 }
 

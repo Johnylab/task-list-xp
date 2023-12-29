@@ -3,6 +3,7 @@
     "dev": "vite"
   },
   "devDependencies": {
+    "@types/uuid": "^9.0.7",
     "eslint": "^8.56.0"
   },
   "dependencies": {
